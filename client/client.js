@@ -5,10 +5,10 @@ const client = createConnection({ port: 6667 }, () => {
 });
 
 // setInterval(() => {
-client.write('nick teste\r\n');
+client.write(':Eu123 nick teste\r\n');
 
 setTimeout(() => {
-  client.write('user a a :Gustavo Pereira')
+  client.write(':a user a a :Gustavo Pereira')
 })
 // }, 1000)
 
