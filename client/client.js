@@ -1,16 +1,10 @@
 import { createConnection } from 'net';
+import { createInterface } from 'readline';
+
 
 const client = createConnection({ port: 6667, host: "192.168.0.199" }, () => {
   console.log('connected to server!');
 });
-
-// setInterval(() => {
-client.write(':Eu123 nick teste\r\n');
-
-setTimeout(() => {
-  client.write('user username a a :Gustavo Pereira');
-})
-// }, 1000)
 
 client.on('data', (data) => {
   console.log(data.toString());
@@ -20,3 +14,17 @@ client.on('data', (data) => {
 client.on('end', () => {
   console.log('disconnected from server');
 });
+
+const commandInterface = createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+function askCommand() {
+  commandInterface.question('', (answer) => {
+    client.write(answer);
+    askCommand();
+  });
+}
+
+askCommand();
