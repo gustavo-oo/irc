@@ -1,6 +1,7 @@
 import handleNick from "./handleNick.js";
 import handleUser from "./handleUser.js";
 import handleQuit from "./handleQuit.js";
+import handleList from "./handleList.js";
 
 const commandsHandlers = {
   nick: handleNick,
@@ -8,7 +9,7 @@ const commandsHandlers = {
   quit: handleQuit,
   // "join",
   // "part",
-  // "list",
+  list: handleList,
   // "privmsg",
   // "who"
 };

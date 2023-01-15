@@ -2,7 +2,7 @@ import getClientId from "./helpers/getClientId.js";
 
 const users = {};
 const pendingUsers = {};
-const channels = {};
+const channels = { TILAPIA: ["julia", "gustavo"] };
 
 function getUser(socket) {
   const clientId = getClientId(socket);
@@ -80,6 +80,12 @@ function isUserInChannel(socket) {
   return !!user && !!user.channel;
 }
 
+function getChannelsInformations() {
+  return Object.entries(channels).map(([channel, users]) => {
+    return { channel, numberOfUsers: users.length };
+  });
+}
+
 export {
   users,
   pendingUsers,
@@ -93,4 +99,5 @@ export {
   getUsersIdInChannel,
   getUserChannel,
   isUserInChannel,
+  getChannelsInformations,
 };

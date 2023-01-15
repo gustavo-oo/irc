@@ -3,6 +3,8 @@ import { createServer } from "net";
 import messageHandler from "./commandsHandlers/messageHandler.js";
 import handleQuit from "./commandsHandlers/handleQuit.js";
 
+const serverName = "localhost";
+
 const server = createServer((socket) => {
   console.log("client connected");
 
@@ -24,3 +26,5 @@ const server = createServer((socket) => {
 server.listen(6667, () => {
   console.log("server bound");
 });
+
+export { serverName };
