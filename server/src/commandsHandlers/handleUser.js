@@ -1,29 +1,15 @@
-import { reverse } from 'dns';
+import { users, pendingUsers, getPendingUser, addUser, removePendingUser } from '../store.js';
+import getHostName from '../helpers/getHostName.js';
 
-import { pendingUsers } from "../store.js"
-import { users } from '../store.js';
+export default async function handleUser(socket, username, ignore1, ignore2, realname) {
+    const pendingUser = getPendingUser(socket);
+    const hostname = await getHostName(socket);
 
-export default function handleUser(socket, ignore1, ignore2, realname) {
-    const clientId = socket.remoteAddress;
-    const user = pendingUsers[clientId];
-    
-    if (user) {
-        reverse(clientId, (error, hostnames) => {
-            let hostname = clientId;
-
-            if (!error && hostnames.length !== 0) {
-                hostname = hostnames[0];
-            }
-
-            users[clientId] = {
-                ...user,
-                realname,
-                hostname,
-            };
-            
-            delete pendingUsers[clientId];
-        })
+    if (pendingUser) {
+        addUser(socket, username, hostname, "localhost", realname, pendingUser);
+        removePendingUser(socket);
+        return;
     }
+    
+    addUser(socket, username, hostname, realname, { nickname: "*" });
 }
-
-export { users };
