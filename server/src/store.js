@@ -54,6 +54,10 @@ function removePendingUser(socket) {
 }
 
 function removeUserFromChannel(socket) {
+  if (!getUser(socket)) {
+    return;
+  }
+
   const userChannel = getUserChannel(socket);
 
   const usersInChannel = getUsersIdInChannel(userChannel);
@@ -71,6 +75,11 @@ function getUserChannel(socket) {
   return user.channel;
 }
 
+function isUserInChannel(socket) {
+  const user = getUser(socket);
+  return !!user && !!user.channel;
+}
+
 export {
   users,
   pendingUsers,
@@ -83,4 +92,5 @@ export {
   removeUserFromChannel,
   getUsersIdInChannel,
   getUserChannel,
+  isUserInChannel,
 };

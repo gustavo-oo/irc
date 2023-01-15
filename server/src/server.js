@@ -1,15 +1,13 @@
 import { createServer } from "net";
 
 import messageHandler from "./commandsHandlers/messageHandler.js";
-import { pendingUsers, users } from "./store.js";
+import handleQuit from "./commandsHandlers/handleQuit.js";
 
 const server = createServer((socket) => {
   console.log("client connected");
 
-  socket.on("close", () => {
+  socket.on("end", () => {
     console.log("client disconnected");
-    removeUserFromChannel(socket);
-    removeUser(socket);
   });
 
   socket.write("Welcome to the IRC server!\r\n");
@@ -19,10 +17,11 @@ const server = createServer((socket) => {
   });
 
   socket.on("error", (err) => {
-    console.log("Server error: " + err);
+    handleQuit(socket, "Connection Closed Abruptly");
+    // console.log(users, pendingUsers);
   });
 });
 
-server.listen(6667, "0.0.0.0", () => {
+server.listen(6667, () => {
   console.log("server bound");
 });
