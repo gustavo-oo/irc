@@ -1,5 +1,6 @@
 import { getPendingUser, addUser, removePendingUser } from "../store.js";
 import getHostName from "../helpers/getHostName.js";
+import { serverName } from "../server.js";
 
 export default async function handleUser(
   socket,
@@ -8,14 +9,7 @@ export default async function handleUser(
   ignore2,
   realname
 ) {
-  const pendingUser = getPendingUser(socket);
   const hostname = await getHostName(socket);
-
-  if (pendingUser) {
-    addUser(socket, username, hostname, "localhost", realname, pendingUser);
-    removePendingUser(socket);
-    return;
-  }
-
-  addUser(socket, username, hostname, realname, { nickname: "*" });
+  addUser(socket, { username, hostname, serverName, realname });
+  console.log(`Usuário "${username}@${hostname} :${realname}" adicionado`)
 }

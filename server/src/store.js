@@ -9,24 +9,28 @@ function getUser(socket) {
   return users[clientId];
 }
 
-function addUser(
-  socket,
+function addUser(socket, {
+  nickname,
   username,
   hostname,
   serverName,
   realname,
-  pendingUser = {}
-) {
-  const clientId = getClientId(socket);
-
+}) {
+  const clientId = getClientId(socket);  
   users[clientId] = {
     socket,
+    nickname,
+    hopcount: 0,
     username,
     hostname,
     realname,
     serverName,
-    ...pendingUser,
   };
+}
+
+function updateUserNickName(socket, nickname) {
+  const user = getUser(socket);
+  user.nickname = nickname;
 }
 
 function removeUser(socket) {
@@ -91,7 +95,24 @@ function getUserChannel(socket) {
 
 function isUserInChannel(socket) {
   const user = getUser(socket);
-  return !!user && !!user.channel;
+  return user?.channel;
+}
+
+function isUserRegistered(socket) {
+  const user = getUser(socket);
+  
+  return user?.username && user?.nickname;
+}
+
+function isNickNameInUse(nickname) {
+  let isNickNameInUse = false;
+  Object.values(users).forEach((user) => {
+    if (user.nickname === nickname) {
+      isNickNameInUse = true;
+    }
+  })
+  
+  return isNickNameInUse;
 }
 
 function getChannelsInformations() {
@@ -115,4 +136,7 @@ export {
   getUserChannel,
   isUserInChannel,
   getChannelsInformations,
+  isUserRegistered,
+  isNickNameInUse,
+  updateUserNickName,
 };

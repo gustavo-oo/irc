@@ -4,6 +4,9 @@ import handleQuit from "./handleQuit.js";
 import handleList from "./handleList.js";
 import handleJoin from "./handleJoin.js";
 
+import { isUserRegistered } from "../store.js";
+import { notRegisteredErrorHandler } from "../helpers/errorHandlers.js";
+
 const commandsHandlers = {
   nick: handleNick,
   user: handleUser,
@@ -40,6 +43,11 @@ function messageHandler(message, socket) {
   if (lastArgMatch) {
     const lastArg = lastArgMatch[0].replace(/^\s:/, "");
     args.push(lastArg);
+  }
+  
+  if (!isUserRegistered(socket) && ![handleNick, handleUser].includes(commandHandler)) {
+    notRegisteredErrorHandler(socket);
+    return;
   }
 
   commandHandler(socket, ...args);
