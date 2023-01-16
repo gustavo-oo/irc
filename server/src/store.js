@@ -1,4 +1,5 @@
 import getClientId from "./helpers/getClientId.js";
+import sendMessageToChannel from "./helpers/sendMessageToChannel.js";
 
 const users = {};
 const pendingUsers = {};
@@ -28,9 +29,12 @@ function addUser(socket, {
   };
 }
 
-function updateUserNickName(socket, nickname) {
-  const user = getUser(socket);
-  user.nickname = nickname;
+function updateUser(socket, params) {
+  const clientId = getClientId(socket);
+  users[clientId] = {
+    ...users[clientId],
+    ...params,
+  }
 }
 
 function removeUser(socket) {
@@ -71,17 +75,30 @@ function addUserToChannel(socket, channelName) {
   users[clientId].channel = channelName;
 }
 
-function removeUserFromChannel(socket) {
-  if (!getUser(socket)) {
+function removeUserFromChannel(socket, quitMessage = undefined) {
+  const user = getUser(socket);
+  if (!user || !isUserInChannel(socket)) {
     return;
   }
-
+  
+  const defaultMessage = `${user.nickname} saiu do canal`;
   const userChannel = getUserChannel(socket);
+  
+  sendMessageToChannel(
+    socket,
+    "QUIT",
+    quitMessage || defaultMessage,
+    userChannel,
+  );
 
   const usersInChannel = getUsersIdInChannel(userChannel);
   const indexUser = usersInChannel.indexOf(getClientId(socket));
 
   channels[userChannel].splice(indexUser, 1);
+  
+  if (channels[userChannel].length === 0) {
+    delete channels[userChannel];
+  }
 }
 
 function getUsersIdInChannel(channelName) {
@@ -100,7 +117,6 @@ function isUserInChannel(socket) {
 
 function isUserRegistered(socket) {
   const user = getUser(socket);
-  
   return user?.username && user?.nickname;
 }
 
@@ -138,5 +154,5 @@ export {
   getChannelsInformations,
   isUserRegistered,
   isNickNameInUse,
-  updateUserNickName,
+  updateUser,
 };
