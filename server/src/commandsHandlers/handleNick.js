@@ -1,4 +1,4 @@
-import { getUser, addPendingUser, isNickNameInUse, addUser, updateUserNickName } from "../store.js";
+import { getUser, isNickNameInUse, addUser, updateUser } from "../store.js";
 
 import { noNickNameGivenErrorHandler, nickNameInUseErrorHandler } from "../helpers/errorHandlers.js";
 
@@ -15,8 +15,8 @@ export default function handleNick(socket, nickname) {
   
   const user = getUser(socket);
   if (user) {
-    updateUserNickName(socket, nickname);
-    console.log(`Nickname updated to "${user.nickname}"`);
+    updateUser(socket, { nickname });
+    console.log(`Nickname updated to "${nickname}"`);
     return;
   }
   

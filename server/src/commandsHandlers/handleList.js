@@ -3,7 +3,7 @@ import { serverName } from "../server.js";
 import sendMessageToUser from "../helpers/sendMessageToUser.js";
 
 export default function handleList(socket) {
-  sendMessageToUser(serverName, socket, 321, ["Channel :Users Name"]);
+  sendMessageToUser(serverName, socket, 321, ["Channel",  "Users"]);
   getChannelsInformations().forEach(({ channel, numberOfUsers }) => {
     sendMessageToUser(serverName, socket, 322, [
       String(channel),
