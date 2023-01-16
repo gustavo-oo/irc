@@ -13,14 +13,6 @@ export default function handleQuit(socket, quitMessage) {
   const defaultMessage = "Tchau";
 
   socket.end(() => {
-    if (getUser(socket)) {
-      removeUser(socket);
-    }
-
-    if (getPendingUser(socket)) {
-      removePendingUser(socket);
-    }
-
     if (isUserInChannel(socket)) {
       removeUserFromChannel(socket);
       sendMessageToChannel(
@@ -29,6 +21,14 @@ export default function handleQuit(socket, quitMessage) {
         quitMessage || defaultMessage,
         getUserChannel(socket)
       );
+    }
+
+    if (getUser(socket)) {
+      removeUser(socket);
+    }
+
+    if (getPendingUser(socket)) {
+      removePendingUser(socket);
     }
   });
 }
