@@ -19,4 +19,15 @@ function nickNameInUseErrorHandler(socket, nick) {
     sendMessageToUser(serverName, socket, errorCode, [nick, message])
 }
 
-export { notRegisteredErrorHandler, noNickNameGivenErrorHandler, nickNameInUseErrorHandler };
+function unknownCommandErrorHandler(socket, command) {
+    const errorCode = 421;
+    const message = "Unknown command";
+    sendMessageToUser(serverName, socket, errorCode, [command, message]);
+}
+
+export {
+    notRegisteredErrorHandler,
+    noNickNameGivenErrorHandler,
+    nickNameInUseErrorHandler,
+    unknownCommandErrorHandler,
+};
