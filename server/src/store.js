@@ -2,7 +2,7 @@ import getClientId from "./helpers/getClientId.js";
 
 const users = {};
 const pendingUsers = {};
-const channels = { TILAPIA: ["julia", "gustavo"] };
+const channels = {};
 
 function getUser(socket) {
   const clientId = getClientId(socket);
