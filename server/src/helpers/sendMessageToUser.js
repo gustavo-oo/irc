@@ -18,6 +18,10 @@ export default function sendMessageToUser(
     message += arg;
   }
   
+  if (args.length == 1) {
+    message = ":" + message;
+  }
+  
   const user = getUser(receiverSocket);
 
   receiverSocket.write(`:${senderName} ${command} ${user?.nickname || "*"} ${message}\r\n`);
