@@ -53,6 +53,20 @@ function removePendingUser(socket) {
   delete pendingUsers[clientId];
 }
 
+function addUserToChannel(socket, channelName) {
+  const clientId = getClientId(socket);
+
+  if(isUserInChannel(socket))
+    removeUserFromChannel(socket);
+
+  if(channels[channelName] === undefined)
+    channels[channelName] = [clientId];
+  else
+    channels[channelName].push(clientId);
+  
+  users[clientId].channel = channelName;
+}
+
 function removeUserFromChannel(socket) {
   if (!getUser(socket)) {
     return;
@@ -63,7 +77,7 @@ function removeUserFromChannel(socket) {
   const usersInChannel = getUsersIdInChannel(userChannel);
   const indexUser = usersInChannel.indexOf(getClientId(socket));
 
-  channels.splice(indexUser, 1);
+  channels[userChannel].splice(indexUser, 1);
 }
 
 function getUsersIdInChannel(channelName) {
@@ -89,6 +103,7 @@ export {
   removeUser,
   getPendingUser,
   removePendingUser,
+  addUserToChannel,
   removeUserFromChannel,
   getUsersIdInChannel,
   getUserChannel,
