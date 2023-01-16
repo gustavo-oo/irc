@@ -2,6 +2,7 @@ import getClientId from "./helpers/getClientId.js";
 
 const users = {};
 const pendingUsers = {};
+const channels = {};
 
 function getUser(socket) {
   const clientId = getClientId(socket);
