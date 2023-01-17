@@ -149,6 +149,10 @@ function channelExists(channelName){
   return !!channels[channelName];
 }
 
+function usersInChannel(channelName) {
+  return getUsersIdInChannel(channelName)?.map((clientId) => users[clientId].nickname) || [];
+}
+
 export {
   users,
   pendingUsers,
@@ -169,4 +173,5 @@ export {
   updateUser,
   channelExists,
   userHasUserName,
+  usersInChannel
 };
