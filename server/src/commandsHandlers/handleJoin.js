@@ -26,7 +26,7 @@ export default function handleJoin(socket, channelName) {
     channelName,
     channelName
     );
-  const userList = '+' + usersInChannel(channelName).toString().replace(',', ' ');
+  const userList = usersInChannel(channelName).toString().replace(',', ' ');
   sendMessageToUser(serverName, socket, 353, [`= ${channelName}`, userList]);
   sendMessageToUser(serverName, socket, 366, [channelName, "End of /NAMES list"]);
 }
