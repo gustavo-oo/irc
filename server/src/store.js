@@ -75,9 +75,13 @@ function removeUserFromChannel(socket) {
   const userChannel = getUserChannel(socket);
 
   const usersInChannel = getUsersIdInChannel(userChannel);
-  const indexUser = usersInChannel.indexOf(getClientId(socket));
+  const clientId = getClientId(socket);
+  const indexUser = usersInChannel.indexOf(clientId);
 
   channels[userChannel].splice(indexUser, 1);
+  delete users[clientId].channel;
+  if(channels[userChannel].length === 0 )
+    delete channels[userChannel];
 }
 
 function getUsersIdInChannel(channelName) {
@@ -100,6 +104,10 @@ function getChannelsInformations() {
   });
 }
 
+function channelExists(channelName){
+  return channels[channelName] !== undefined;
+}
+
 export {
   users,
   pendingUsers,
@@ -115,4 +123,5 @@ export {
   getUserChannel,
   isUserInChannel,
   getChannelsInformations,
+  channelExists
 };

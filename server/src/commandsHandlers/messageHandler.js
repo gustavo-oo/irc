@@ -3,13 +3,14 @@ import handleUser from "./handleUser.js";
 import handleQuit from "./handleQuit.js";
 import handleList from "./handleList.js";
 import handleJoin from "./handleJoin.js";
+import handlePart from "./handlePart.js";
 
 const commandsHandlers = {
   nick: handleNick,
   user: handleUser,
   quit: handleQuit,
   join: handleJoin,
-  // "part",
+  part: handlePart,
   list: handleList,
   // "privmsg",
   // "who"
