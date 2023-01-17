@@ -14,6 +14,7 @@ export default function handlePrivMsg(socket, targets, message) {
     noRecipientErrorHandler(socket, "PRIVMSG");
     return;
   }
+
   if (!message) {
     noTextToSendErrorHandler(socket);
     return;
