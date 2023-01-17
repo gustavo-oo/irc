@@ -64,3 +64,12 @@ input {
   padding-left: 2%;
   border: 1px solid #3d3d3d;
 }
+
+@media screen and (max-width: 1500px) {
+  .iconConteiner {
+    display: none;
+  }
+  .inputConteiner {
+    width: 100%;
+  }
+}
