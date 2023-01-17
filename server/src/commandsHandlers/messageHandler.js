@@ -7,6 +7,7 @@ import handlePart from "./handlePart.js";
 
 import { isUserRegistered } from "../store.js";
 import { notRegisteredErrorHandler, unknownCommandErrorHandler } from "../helpers/errorHandlers.js";
+import handleWho from "./handleWho.js";
 
 const commandsHandlers = {
   nick: handleNick,
@@ -16,7 +17,7 @@ const commandsHandlers = {
   part: handlePart,
   list: handleList,
   // "privmsg",
-  // "who"
+  who: handleWho,
 };
 
 function messageHandler(message, socket) {

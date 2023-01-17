@@ -24,7 +24,7 @@ const server = createServer((socket) => {
   });
 });
 
-server.listen(6667, () => {
+server.listen(6667, "0.0.0.0", () => {
   console.log("server bound");
 });
 
