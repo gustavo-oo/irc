@@ -32,7 +32,9 @@ export default function handlePrivMsg(socket, targets, message) {
 
     const user = getUserByNickname(target);
     if (user) {
-      sendMessageToUser(getUser(socket), user.socket, "PRIVMSG", [message]);
+      sendMessageToUser(getUser(socket).nickname, user.socket, "PRIVMSG", [
+        message,
+      ]);
       return;
     }
     noSuchNickErrorHandler(socket, target);
