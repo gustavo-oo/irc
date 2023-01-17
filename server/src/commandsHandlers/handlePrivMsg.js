@@ -27,7 +27,7 @@ export default function handlePrivMsg(socket, targets, message) {
   }
   users.forEach((target) => {
     if (channelExists(target)) {
-      sendMessageToChannel(socket, "PRIVMSG", message, target);
+      sendMessageToChannel(socket, "PRIVMSG", message, target, false);
       return;
     }
 
