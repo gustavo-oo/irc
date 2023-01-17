@@ -24,8 +24,11 @@ const commandsHandlers = {
   privmsg: handlePrivMsg,
 };
 
+const MAX_STRING_LENGTH = 512;
+
 function messageHandler(message, socket) {
-  // desconsiderando que existe um prefixo :
+  message = message.substring(0, Math.min(MAX_STRING_LENGTH, message.length));
+  
   const prefixRegex = /(^:\S+\s)/;
   const crlfRegex = /(\r\n)$/;
   const newRegex = new RegExp(prefixRegex.source + "|" + crlfRegex.source, "g");
