@@ -10,14 +10,11 @@ function getUser(socket) {
   return users[clientId];
 }
 
-function addUser(socket, {
-  nickname,
-  username,
-  hostname,
-  serverName,
-  realname,
-}) {
-  const clientId = getClientId(socket);  
+function addUser(
+  socket,
+  { nickname, username, hostname, serverName, realname }
+) {
+  const clientId = getClientId(socket);
   users[clientId] = {
     socket,
     nickname,
@@ -34,7 +31,7 @@ function updateUser(socket, params) {
   users[clientId] = {
     ...users[clientId],
     ...params,
-  }
+  };
 }
 
 function removeUser(socket) {
@@ -64,14 +61,11 @@ function removePendingUser(socket) {
 function addUserToChannel(socket, channelName) {
   const clientId = getClientId(socket);
 
-  if(isUserInChannel(socket))
-    removeUserFromChannel(socket);
+  if (isUserInChannel(socket)) removeUserFromChannel(socket);
 
-  if(channels[channelName] === undefined)
-    channels[channelName] = [clientId];
-  else
-    channels[channelName].push(clientId);
-  
+  if (channels[channelName] === undefined) channels[channelName] = [clientId];
+  else channels[channelName].push(clientId);
+
   users[clientId].channel = channelName;
 }
 
@@ -80,15 +74,15 @@ function removeUserFromChannel(socket, quitMessage = undefined) {
   if (!user || !isUserInChannel(socket)) {
     return;
   }
-  
+
   const defaultMessage = `${user.nickname} saiu do canal`;
   const userChannel = getUserChannel(socket);
-  
+
   sendMessageToChannel(
     socket,
     "QUIT",
     quitMessage || defaultMessage,
-    userChannel,
+    userChannel
   );
 
   const usersInChannel = getUsersIdInChannel(userChannel);
@@ -99,7 +93,7 @@ function removeUserFromChannel(socket, quitMessage = undefined) {
 
   delete users[clientId].channel;
 
-  if(channels[userChannel].length === 0) {
+  if (channels[userChannel].length === 0) {
     delete channels[userChannel];
   }
 }
@@ -134,8 +128,8 @@ function isNickNameInUse(nickname) {
     if (user.nickname === nickname) {
       isNickNameInUse = true;
     }
-  })
-  
+  });
+
   return isNickNameInUse;
 }
 
@@ -145,12 +139,23 @@ function getChannelsInformations() {
   });
 }
 
-function channelExists(channelName){
+function channelExists(channelName) {
   return !!channels[channelName];
 }
 
+
 function usersInChannel(channelName) {
   return getUsersIdInChannel(channelName)?.map((clientId) => users[clientId].nickname) || [];
+}
+
+function getUserByNickname(nickname) {
+  let target;
+  Object.values(users).forEach((user) => {
+    if (user.nickname === nickname) {
+      target = user;
+    }
+  });
+  return target;
 }
 
 export {
@@ -173,5 +178,6 @@ export {
   updateUser,
   channelExists,
   userHasUserName,
-  usersInChannel
+  usersInChannel,
+  getUserByNickname,
 };
