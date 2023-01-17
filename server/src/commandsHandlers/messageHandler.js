@@ -4,10 +4,14 @@ import handleQuit from "./handleQuit.js";
 import handleList from "./handleList.js";
 import handleJoin from "./handleJoin.js";
 import handlePart from "./handlePart.js";
+import handlePrivMsg from "./handlePrivMsg.js";
+import handleWho from "./handleWho.js"
 
 import { isUserRegistered } from "../store.js";
-import { notRegisteredErrorHandler, unknownCommandErrorHandler } from "../helpers/errorHandlers.js";
-import handleWho from "./handleWho.js";
+import {
+  notRegisteredErrorHandler,
+  unknownCommandErrorHandler,
+} from "../helpers/errorHandlers.js";
 
 const commandsHandlers = {
   nick: handleNick,
@@ -16,8 +20,8 @@ const commandsHandlers = {
   join: handleJoin,
   part: handlePart,
   list: handleList,
-  // "privmsg",
   who: handleWho,
+  privmsg: handlePrivMsg,
 };
 
 function messageHandler(message, socket) {
@@ -41,13 +45,16 @@ function messageHandler(message, socket) {
   const commandHandler = commandsHandlers[command];
 
   const args = components.slice(1);
-  
+
   if (!commandHandler) {
     unknownCommandErrorHandler(socket, command.toUpperCase());
     return;
   }
-  
-  if (!isUserRegistered(socket) && ![handleNick, handleUser].includes(commandHandler)) {
+
+  if (
+    !isUserRegistered(socket) &&
+    ![handleNick, handleUser].includes(commandHandler)
+  ) {
     notRegisteredErrorHandler(socket);
     return;
   }
@@ -56,7 +63,7 @@ function messageHandler(message, socket) {
     const lastArg = lastArgMatch[0].replace(/^\s:/, "");
     args.push(lastArg);
   }
-  
+
   commandHandler(socket, ...args);
 }
 
