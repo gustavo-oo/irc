@@ -1,7 +1,7 @@
 import { createConnection } from "net";
 import { createInterface } from "readline";
 
-const client = createConnection({ port: 6667 }, () => {
+const client = createConnection({ port: 6667, host: "192.168.0.199" }, () => {
   console.log("connected to server!");
 });
 

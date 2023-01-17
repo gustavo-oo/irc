@@ -4,9 +4,14 @@ import handleQuit from "./handleQuit.js";
 import handleList from "./handleList.js";
 import handleJoin from "./handleJoin.js";
 import handlePart from "./handlePart.js";
+import handlePrivMsg from "./handlePrivMsg.js";
+import handleWho from "./handleWho.js"
 
 import { isUserRegistered } from "../store.js";
-import { notRegisteredErrorHandler, unknownCommandErrorHandler } from "../helpers/errorHandlers.js";
+import {
+  notRegisteredErrorHandler,
+  unknownCommandErrorHandler,
+} from "../helpers/errorHandlers.js";
 
 const commandsHandlers = {
   nick: handleNick,
@@ -15,12 +20,15 @@ const commandsHandlers = {
   join: handleJoin,
   part: handlePart,
   list: handleList,
-  // "privmsg",
-  // "who"
+  who: handleWho,
+  privmsg: handlePrivMsg,
 };
 
+const MAX_STRING_LENGTH = 512;
+
 function messageHandler(message, socket) {
-  // desconsiderando que existe um prefixo :
+  message = message.substring(0, Math.min(MAX_STRING_LENGTH, message.length));
+  
   const prefixRegex = /(^:\S+\s)/;
   const crlfRegex = /(\r\n)$/;
   const newRegex = new RegExp(prefixRegex.source + "|" + crlfRegex.source, "g");
@@ -40,13 +48,16 @@ function messageHandler(message, socket) {
   const commandHandler = commandsHandlers[command];
 
   const args = components.slice(1);
-  
+
   if (!commandHandler) {
     unknownCommandErrorHandler(socket, command.toUpperCase());
     return;
   }
-  
-  if (!isUserRegistered(socket) && ![handleNick, handleUser].includes(commandHandler)) {
+
+  if (
+    !isUserRegistered(socket) &&
+    ![handleNick, handleUser].includes(commandHandler)
+  ) {
     notRegisteredErrorHandler(socket);
     return;
   }
@@ -55,7 +66,7 @@ function messageHandler(message, socket) {
     const lastArg = lastArgMatch[0].replace(/^\s:/, "");
     args.push(lastArg);
   }
-  
+
   commandHandler(socket, ...args);
 }
 
