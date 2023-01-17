@@ -25,9 +25,30 @@ function unknownCommandErrorHandler(socket, command) {
     sendMessageToUser(serverName, socket, errorCode, [command, message]);
 }
 
+function needMoreParamsErrorHandler(socket, command) {
+    const errorCode = 461;
+    const message = "Not enough parameters";
+    sendMessageToUser(serverName, socket, errorCode, [command, message])
+}
+
+function notOnChannelErrorHandler(socket, command, channel) {
+    const errorCode = 442;
+    const message = "You're not on that channel";
+    sendMessageToUser(serverName, socket, errorCode, [command, channel, message])
+}
+
+function noSuchChannelErrorHandler(socket, command, channel) {
+    const errorCode = 403;
+    const message = "No such channel";
+    sendMessageToUser(serverName, socket, errorCode, [command, channel, message])
+}                                                           
+
 export {
     notRegisteredErrorHandler,
     noNickNameGivenErrorHandler,
     nickNameInUseErrorHandler,
     unknownCommandErrorHandler,
+    needMoreParamsErrorHandler,
+    notOnChannelErrorHandler,
+    noSuchChannelErrorHandler,
 };

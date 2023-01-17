@@ -3,6 +3,7 @@ import handleUser from "./handleUser.js";
 import handleQuit from "./handleQuit.js";
 import handleList from "./handleList.js";
 import handleJoin from "./handleJoin.js";
+import handlePart from "./handlePart.js";
 
 import { isUserRegistered } from "../store.js";
 import { notRegisteredErrorHandler, unknownCommandErrorHandler } from "../helpers/errorHandlers.js";
@@ -12,7 +13,7 @@ const commandsHandlers = {
   user: handleUser,
   quit: handleQuit,
   join: handleJoin,
-  // "part",
+  part: handlePart,
   list: handleList,
   // "privmsg",
   // "who"
@@ -41,7 +42,7 @@ function messageHandler(message, socket) {
   const args = components.slice(1);
   
   if (!commandHandler) {
-    unknownCommandErrorHandler(socket, command);
+    unknownCommandErrorHandler(socket, command.toUpperCase());
     return;
   }
   
