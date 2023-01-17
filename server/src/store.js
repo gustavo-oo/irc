@@ -118,6 +118,11 @@ function isUserInChannel(socket) {
   return user?.channel;
 }
 
+function userHasUserName(socket) {
+  const user = getUser(socket);
+  return user?.username;
+}
+
 function isUserRegistered(socket) {
   const user = getUser(socket);
   return user?.username && user?.nickname;
@@ -162,5 +167,6 @@ export {
   isUserRegistered,
   isNickNameInUse,
   updateUser,
-  channelExists
+  channelExists,
+  userHasUserName,
 };

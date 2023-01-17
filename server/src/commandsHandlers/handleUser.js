@@ -1,6 +1,7 @@
-import { addUser, getUser, updateUser } from "../store.js";
+import { addUser, getUser, updateUser, userHasUserName } from "../store.js";
 import getHostName from "../helpers/getHostName.js";
 import { serverName } from "../server.js";
+import { alreadyRegisteredErrorHandler, needMoreParamsErrorHandler } from "../helpers/errorHandlers.js";
 
 export default async function handleUser(
   socket,
@@ -10,8 +11,17 @@ export default async function handleUser(
   realname
 ) {
   const hostname = await getHostName(socket);
-  
   const user = getUser(socket);
+
+  if (userHasUserName(socket)) {
+    alreadyRegisteredErrorHandler(socket);
+    return;
+  }
+  
+  if (!username || !realname) {
+    needMoreParamsErrorHandler(socket, "USER");
+    return;
+  }
   
   if (user) {
     updateUser(socket, { username, hostname, serverName, realname });

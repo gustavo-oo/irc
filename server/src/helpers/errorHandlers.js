@@ -49,6 +49,12 @@ function erroneusNickNameErrorHandler(socket, nickname) {
     sendMessageToUser(serverName, socket, errorCode, [nickname, message]);
 }
 
+function alreadyRegisteredErrorHandler(socket) {
+    const errorCode = 462;
+    const message = "You may not reregister";
+    sendMessageToUser(serverName, socket, errorCode, [message])
+}
+
 export {
     notRegisteredErrorHandler,
     noNickNameGivenErrorHandler,
@@ -58,4 +64,5 @@ export {
     notOnChannelErrorHandler,
     noSuchChannelErrorHandler,
     erroneusNickNameErrorHandler,
+    alreadyRegisteredErrorHandler,
 };
