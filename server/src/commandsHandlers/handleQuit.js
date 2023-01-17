@@ -7,13 +7,12 @@ import {
   getUser,
   removePendingUser,
 } from "../store.js";
-import sendMessageToChannel from "../helpers/sendMessageToChannel.js";
 
 export default function handleQuit(socket, quitMessage) {
 
   socket.end(() => {
     if (isUserInChannel(socket)) {
-      removeUserFromChannel(socket);
+      removeUserFromChannel(socket, quitMessage);
     }
 
     if (getUser(socket)) {

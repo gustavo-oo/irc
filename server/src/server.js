@@ -20,6 +20,7 @@ const server = createServer((socket) => {
 
   socket.on("error", (err) => {
     handleQuit(socket, "Connection Closed Abruptly");
+    console.log("client disconnected");
   });
 });
 

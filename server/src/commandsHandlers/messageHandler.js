@@ -55,7 +55,7 @@ function messageHandler(message, socket) {
     const lastArg = lastArgMatch[0].replace(/^\s:/, "");
     args.push(lastArg);
   }
-
+  
   commandHandler(socket, ...args);
 }
 

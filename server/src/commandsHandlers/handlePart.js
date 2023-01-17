@@ -1,6 +1,9 @@
-import { removeUserFromChannel, getUserChannel, channelExists, getUser } from "../store.js";
-import sendMessageToChannel from "../helpers/sendMessageToChannel.js";
-import { needMoreParamsErrorHandler, noSuchChannelErrorHandler, notOnChannelErrorHandler } from "../helpers/errorHandlers.js";
+import { removeUserFromChannel, getUserChannel, channelExists } from "../store.js";
+import {
+  needMoreParamsErrorHandler,
+  noSuchChannelErrorHandler,
+  notOnChannelErrorHandler
+} from "../helpers/errorHandlers.js";
 
 export default function handlePart(socket, channelsNames) {
   if(!channelsNames){
@@ -12,9 +15,9 @@ export default function handlePart(socket, channelsNames) {
     if (getUserChannel(socket) === channelName) {
       removeUserFromChannel(socket);
     } else if(channelExists(channelName)) {
-      notOnChannelErrorHandler(socket, "PART", channelName);
+      notOnChannelErrorHandler(socket, channelName);
     } else {
-      noSuchChannelErrorHandler(socket, "PART", channelName);
+      noSuchChannelErrorHandler(socket, channelName);
     }
   })
 }

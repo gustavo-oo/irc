@@ -4,7 +4,7 @@ import sendMessageToUser from "../helpers/sendMessageToUser.js"
 function notRegisteredErrorHandler(socket) {
     const errorCode = 451;
     const message = "You have not registered";
-    sendMessageToUser(serverName, socket, errorCode, [message])
+    sendMessageToUser(serverName, socket, errorCode, [message]);
 }
 
 function noNickNameGivenErrorHandler(socket) {
@@ -16,7 +16,7 @@ function noNickNameGivenErrorHandler(socket) {
 function nickNameInUseErrorHandler(socket, nick) {
     const errorCode = 433;
     const message = "Nickname is already in use";
-    sendMessageToUser(serverName, socket, errorCode, [nick, message])
+    sendMessageToUser(serverName, socket, errorCode, [nick, message]);
 }
 
 function unknownCommandErrorHandler(socket, command) {
@@ -28,20 +28,26 @@ function unknownCommandErrorHandler(socket, command) {
 function needMoreParamsErrorHandler(socket, command) {
     const errorCode = 461;
     const message = "Not enough parameters";
-    sendMessageToUser(serverName, socket, errorCode, [command, message])
+    sendMessageToUser(serverName, socket, errorCode, [command, message]);
 }
 
-function notOnChannelErrorHandler(socket, command, channel) {
+function notOnChannelErrorHandler(socket, channel) {
     const errorCode = 442;
     const message = "You're not on that channel";
-    sendMessageToUser(serverName, socket, errorCode, [command, channel, message])
+    sendMessageToUser(serverName, socket, errorCode, [channel, message]);
 }
 
-function noSuchChannelErrorHandler(socket, command, channel) {
+function noSuchChannelErrorHandler(socket, channel) {
     const errorCode = 403;
     const message = "No such channel";
-    sendMessageToUser(serverName, socket, errorCode, [command, channel, message])
-}                                                           
+    sendMessageToUser(serverName, socket, errorCode, [channel, message]);
+}
+
+function erroneusNickNameErrorHandler(socket, nickname) {
+    const errorCode = 432;
+    const message = "Erroneus nickname";
+    sendMessageToUser(serverName, socket, errorCode, [nickname, message]);
+}
 
 export {
     notRegisteredErrorHandler,
@@ -51,4 +57,5 @@ export {
     needMoreParamsErrorHandler,
     notOnChannelErrorHandler,
     noSuchChannelErrorHandler,
+    erroneusNickNameErrorHandler,
 };
