@@ -23,6 +23,7 @@ export default function handlePrivMsg(socket, targets, message) {
   const duplicate = getDuplicates(users);
   if (duplicate) {
     tooManyTargetsErrorHandler(socket, duplicate);
+    return;
   }
   users.forEach((target) => {
     if (channelExists(target)) {
