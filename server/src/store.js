@@ -143,6 +143,11 @@ function channelExists(channelName) {
   return !!channels[channelName];
 }
 
+
+function usersInChannel(channelName) {
+  return getUsersIdInChannel(channelName)?.map((clientId) => users[clientId].nickname) || [];
+}
+
 function getUserByNickname(nickname) {
   let target;
   Object.values(users).forEach((user) => {
@@ -173,5 +178,6 @@ export {
   updateUser,
   channelExists,
   userHasUserName,
+  usersInChannel,
   getUserByNickname,
 };
