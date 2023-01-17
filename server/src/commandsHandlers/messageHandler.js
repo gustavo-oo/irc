@@ -5,6 +5,7 @@ import handleList from "./handleList.js";
 import handleJoin from "./handleJoin.js";
 import handlePart from "./handlePart.js";
 import handlePrivMsg from "./handlePrivMsg.js";
+import handleWho from "./handleWho.js"
 
 import { isUserRegistered } from "../store.js";
 import {
@@ -19,8 +20,8 @@ const commandsHandlers = {
   join: handleJoin,
   part: handlePart,
   list: handleList,
+  who: handleWho,
   privmsg: handlePrivMsg,
-  // "who"
 };
 
 function messageHandler(message, socket) {
