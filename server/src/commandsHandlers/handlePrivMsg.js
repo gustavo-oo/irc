@@ -10,12 +10,12 @@ import {
 } from "../helpers/errorHandlers.js";
 
 export default function handlePrivMsg(socket, targets, message) {
-  if (!message) {
-    noTextToSendErrorHandler(socket);
-    return;
-  }
   if (!targets) {
     noRecipientErrorHandler(socket, "PRIVMSG");
+    return;
+  }
+  if (!message) {
+    noTextToSendErrorHandler(socket);
     return;
   }
 
