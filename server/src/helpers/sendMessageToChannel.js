@@ -8,8 +8,9 @@ export default function sendMessageToChannel(
 ) {
   const usersId = getUsersIdInChannel(channel);
   const sendingUser = getUser(socket);
+  
   usersId.forEach((userId) => {
     const user = users[userId];
-    user.socket.write(`:${sendingUser.nickname} ${command} :${message}\r\n`);
+    user.socket.write(`:${sendingUser.nickname} ${command} ${message ? ":" + message : ""}\r\n`);
   });
 }

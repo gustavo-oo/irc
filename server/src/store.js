@@ -1,4 +1,5 @@
 import getClientId from "./helpers/getClientId.js";
+import sendMessageToChannel from "./helpers/sendMessageToChannel.js";
 
 const users = {};
 const pendingUsers = {};
@@ -9,24 +10,31 @@ function getUser(socket) {
   return users[clientId];
 }
 
-function addUser(
-  socket,
+function addUser(socket, {
+  nickname,
   username,
   hostname,
   serverName,
   realname,
-  pendingUser = {}
-) {
-  const clientId = getClientId(socket);
-
+}) {
+  const clientId = getClientId(socket);  
   users[clientId] = {
     socket,
+    nickname,
+    hopcount: 0,
     username,
     hostname,
     realname,
     serverName,
-    ...pendingUser,
   };
+}
+
+function updateUser(socket, params) {
+  const clientId = getClientId(socket);
+  users[clientId] = {
+    ...users[clientId],
+    ...params,
+  }
 }
 
 function removeUser(socket) {
@@ -67,21 +75,33 @@ function addUserToChannel(socket, channelName) {
   users[clientId].channel = channelName;
 }
 
-function removeUserFromChannel(socket) {
-  if (!getUser(socket)) {
+function removeUserFromChannel(socket, quitMessage = undefined) {
+  const user = getUser(socket);
+  if (!user || !isUserInChannel(socket)) {
     return;
   }
-
+  
+  const defaultMessage = `${user.nickname} saiu do canal`;
   const userChannel = getUserChannel(socket);
+  
+  sendMessageToChannel(
+    socket,
+    "QUIT",
+    quitMessage || defaultMessage,
+    userChannel,
+  );
 
   const usersInChannel = getUsersIdInChannel(userChannel);
   const clientId = getClientId(socket);
   const indexUser = usersInChannel.indexOf(clientId);
 
   channels[userChannel].splice(indexUser, 1);
+
   delete users[clientId].channel;
-  if(channels[userChannel].length === 0 )
+
+  if(channels[userChannel].length === 0) {
     delete channels[userChannel];
+  }
 }
 
 function getUsersIdInChannel(channelName) {
@@ -95,7 +115,28 @@ function getUserChannel(socket) {
 
 function isUserInChannel(socket) {
   const user = getUser(socket);
-  return !!user && !!user.channel;
+  return user?.channel;
+}
+
+function userHasUserName(socket) {
+  const user = getUser(socket);
+  return user?.username;
+}
+
+function isUserRegistered(socket) {
+  const user = getUser(socket);
+  return user?.username && user?.nickname;
+}
+
+function isNickNameInUse(nickname) {
+  let isNickNameInUse = false;
+  Object.values(users).forEach((user) => {
+    if (user.nickname === nickname) {
+      isNickNameInUse = true;
+    }
+  })
+  
+  return isNickNameInUse;
 }
 
 function getChannelsInformations() {
@@ -105,7 +146,7 @@ function getChannelsInformations() {
 }
 
 function channelExists(channelName){
-  return channels[channelName] !== undefined;
+  return !!channels[channelName];
 }
 
 export {
@@ -123,5 +164,9 @@ export {
   getUserChannel,
   isUserInChannel,
   getChannelsInformations,
-  channelExists
+  isUserRegistered,
+  isNickNameInUse,
+  updateUser,
+  channelExists,
+  userHasUserName,
 };
