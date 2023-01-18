@@ -13,7 +13,7 @@ import {
   removePendingUser,
 } from "./store.js";
 
-const serverName = "localhost";
+const serverName = "Servidor";
 
 const server = createServer((socket) => {
   console.log("client connected: " + getClientId(socket));
