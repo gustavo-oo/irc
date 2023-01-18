@@ -1,8 +1,11 @@
-import './App.css';
+import "./App.css";
+import "./Globals.css";
+import HomePage from "./pages/HomePage/HomePage";
 
 function App() {
   return (
     <div className="App">
+      <HomePage />
     </div>
   );
 }
