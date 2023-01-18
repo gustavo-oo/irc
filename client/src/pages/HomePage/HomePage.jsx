@@ -11,7 +11,7 @@ export default function HomePage() {
   }
   return (
     <div className="wholePage">
-      <div className="header">
+      <div className="headerhome">
         <div className="firstLine">Entrar no</div>
         <div className="secondLine">Internet Relay Chat</div>
       </div>
