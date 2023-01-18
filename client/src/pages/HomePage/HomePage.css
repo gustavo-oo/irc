@@ -65,7 +65,7 @@ input {
   border: 1px solid #3d3d3d;
 }
 
-@media screen and (max-width: 1500px) {
+@media screen and (max-width: 1000px) {
   .iconConteiner {
     display: none;
   }
