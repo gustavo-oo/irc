@@ -1,10 +1,13 @@
 import './styles.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { FiSend } from 'react-icons/fi'
+import formatToIrc from '../../helpers/formatToIrc';
+import { getSender, getMessages, getStringMessage, messagesFormater } from '../../helpers/arrivedMessageProcessor';
+import replyCodes from '../../enum/replyCodes';
 
-const ChatScreen = ({channelName}) => {
-    const [messages, setMessages] = useState([{time: '11:02', sender: "Servidor", message: "Welcome to IRC Server"}]);
+const ChatScreen = ({messages, setMessages, onSubmit, arrivedMessages, setArrivedMessages, socket }) => {
     const [newMessage, setNewMessage] = useState("");
+    const [currentChannel, setCurrentChannel] = useState(null);
 
     const currentUser = "David";
 
@@ -20,21 +23,55 @@ const ChatScreen = ({channelName}) => {
         }
     }
 
-    const formatMessage = (message) => {
+    const formatMessage = (message, sender = null) => {
         let today = new Date();
         let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
-        return ({time: time, sender: currentUser, message: message});
+        return ({time: time, sender: sender || currentUser, message: message});
     }
 
     const sendMessage = (e) => {
         e.preventDefault();
 
         if(!!newMessage){
+            onSubmit(formatToIrc(newMessage, currentChannel));
             setMessages(messages => [...messages, formatMessage(newMessage)]);
             setNewMessage("");
         }
     }
+
+    useEffect(() => {
+        socket.on('message', (data) => {
+            const formattedMessages = messagesFormater(data);
+            formattedMessages.forEach(({message, sender, command, args}) => {
+                console.log(command);
+                if (command === replyCodes.join) {
+                    setCurrentChannel(args[4]);
+                }
+                
+                const formattedMessage = formatMessage(message, sender);
+                setMessages(messages => [...messages, formattedMessage]);
+            })
+        })
+        
+        return () => {
+            if (socket) {
+                socket.off('message');
+            }
+        };
+    }, [socket]);
+    
+    // useEffect(() => {
+    //     if (arrivedMessages) {
+            
+    //         setArrivedMessages(null);
+            
+    //         messages.forEach(message => {
+    //             const sender = getSender(message);
+    //             setMessages(messages => [...messages, formatMessage(arrivedMessages, sender)]);
+    //         })
+    //     }
+    // }, [arrivedMessages, setArrivedMessages, setMessages, formatMessage, messages, newMessage])
 
     useEffect(() => {
         let object = document.getElementById("messages");
@@ -44,7 +81,7 @@ const ChatScreen = ({channelName}) => {
     return(
         <div className='chat-screen'>
             <div className='header'>
-                <h1>{channelName || "Bem vindo ao chat"}</h1>
+                <h1>{currentChannel || "Bem vindo ao chat"}</h1>
                 <h2>Sair</h2>
             </div>
             <div className='messages-container'>

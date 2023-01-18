@@ -4,13 +4,35 @@ import getClientId from "./helpers/getClientId.js";
 import messageHandler from "./commandsHandlers/messageHandler.js";
 import handleQuit from "./commandsHandlers/handleQuit.js";
 
+import {
+  removeUser,
+  removeUserFromChannel,
+  isUserInChannel,
+  getPendingUser,
+  getUser,
+  removePendingUser,
+} from "./store.js";
+
 const serverName = "localhost";
 
 const server = createServer((socket) => {
   console.log("client connected: " + getClientId(socket));
 
+
   socket.on("end", () => {
     console.log("client disconnected");
+    
+    if (isUserInChannel(socket)) {
+      removeUserFromChannel(socket);
+    }
+
+    if (getUser(socket)) {
+      removeUser(socket);
+    }
+
+    if (getPendingUser(socket)) {
+      removePendingUser(socket);
+    }
   });
 
   socket.write("Welcome to the IRC server!\r\n");
@@ -21,7 +43,7 @@ const server = createServer((socket) => {
 
   socket.on("error", (err) => {
     handleQuit(socket, "Connection Closed Abruptly");
-    console.log("client disconnected");
+    console.log("client disconnected: Connection Closed Abruptly");
   });
 });
 

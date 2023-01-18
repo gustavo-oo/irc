@@ -2,6 +2,7 @@ import { getUser, isNickNameInUse, addUser, updateUser } from "../store.js";
 
 import { noNickNameGivenErrorHandler, nickNameInUseErrorHandler } from "../helpers/errorHandlers.js";
 import validateNickName from "../helpers/validateNickName.js";
+import sendWelcomeMessage from "../helpers/sendWelcomeMessage.js";
 
 export default function handleNick(socket, nickname) {
   if(!nickname) {
@@ -23,6 +24,7 @@ export default function handleNick(socket, nickname) {
   if (user) {
     updateUser(socket, { nickname });
     console.log(`Nickname updated to "${nickname}"`);
+    sendWelcomeMessage(socket);
     return;
   }
   

@@ -7,7 +7,7 @@ const commandHandlers = {
 }
 
 
-export default function processChatMessage(message, channel) {
+export default function formatToIrc(message, channel) {
     const commandRegex = /^\/(\w+)/;
     const match = message.match(commandRegex);
     const command = match && match[1];
@@ -19,7 +19,7 @@ export default function processChatMessage(message, channel) {
         }
         return defaultCommandHandler(message);
     }
-    defaultHandler(message, channel);
+    return defaultHandler(message, channel);
 }
 
 function defaultCommandHandler(message) {

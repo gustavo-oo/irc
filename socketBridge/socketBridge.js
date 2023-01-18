@@ -10,10 +10,14 @@ io.on("connection", (socket) => {
     const client = createConnection({ port: 6667, host: "192.168.0.199" }, () => {
         console.log("connected to server!");
     });
+    
+    client.on("end", () => {
+      socket.disconnect();
+    })
 
     socket.on("disconnect", () => {
-        client.end();
-        console.log("client disconnected");
+      client.end();
+      console.log("client disconnected");
     });
 
     socket.on("message", (data) => {
@@ -26,7 +30,8 @@ io.on("connection", (socket) => {
     });
 
     socket.on("error", (err) => {
-        client.end();
+        client.emit('error', new Error('Connection closed'));
+        // client.end();
         console.log("client disconnected");
     });
 });
