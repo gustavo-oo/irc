@@ -8,7 +8,7 @@ import HomePage from "./pages/HomePage/HomePage";
 
 function App({ socket }) {
   const [message, setMessage] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const pages = [<HomePage />, <ChatScreen />];
 
