@@ -152,7 +152,7 @@ textarea {
   color: #000;
   margin-left: 20rem;
   margin-right: 10rem;
-  max-height: 60vh;
+  max-height: 40vh;
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
