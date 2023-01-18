@@ -66,5 +66,5 @@ function dmHandler(message) {
 }
 
 function defaultHandler(message, channel) {
-    return `privmsg ${channel} ${message}`;
+    return `privmsg ${channel} :${message}`;
 }
