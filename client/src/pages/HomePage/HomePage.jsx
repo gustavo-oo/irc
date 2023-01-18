@@ -1,17 +1,21 @@
-import MsnIcon from "../../components/MsnIcon/MsnIcon";
+import MsnIcon from "../../Components/MsnIcon/MsnIcon";
 import "./HomePage.css";
 import { useState } from "react";
-export default function HomePage() {
-  const [nick, setNick] = useState("");
+export default function HomePage({ onSubmit, isLoading, setIsLoading, nick, setNick }) {
   const [username, setUserName] = useState("");
   const [fullname, setFullName] = useState("");
 
-  function onSubmit() {
-    return;
+  function handleSubmit() {
+    const nickCommand = `NICK ${nick}`;
+    const userCommand = `USER ${username} foo foo :${fullname}`;
+    onSubmit(nickCommand);
+    onSubmit(userCommand);
+    setIsLoading(true);
   }
+
   return (
     <div className="wholePage">
-      <div className="header">
+      <div className="headerhome">
         <div className="firstLine">Entrar no</div>
         <div className="secondLine">Internet Relay Chat</div>
       </div>
@@ -20,25 +24,25 @@ export default function HomePage() {
           <MsnIcon />
         </div>
         <div className="inputConteiner">
-          <label for="fname">Apelido:</label>
+          <label htmlFor="fname">Apelido:</label>
           <input
             placeholder="Nick"
             value={nick}
             onChange={(event) => setNick(event.target.value)}
           ></input>
-          <label for="fname">Nome do Usuário:</label>
+          <label htmlFor="fname">Nome do Usuário:</label>
           <input
             placeholder="Username"
             value={username}
             onChange={(event) => setUserName(event.target.value)}
           ></input>
-          <label for="fname">Nome Completo:</label>
+          <label htmlFor="fname">Nome Completo:</label>
           <input
             placeholder="Full Name"
             value={fullname}
             onChange={(event) => setFullName(event.target.value)}
           ></input>
-          <button className="enterButton" onClick={onSubmit}>
+          <button disabled={isLoading} className="enterButton" onClick={handleSubmit}>
             Entrar
           </button>
         </div>

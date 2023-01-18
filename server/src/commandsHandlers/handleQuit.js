@@ -9,7 +9,6 @@ import {
 } from "../store.js";
 
 export default function handleQuit(socket, quitMessage) {
-
   socket.end(() => {
     if (isUserInChannel(socket)) {
       removeUserFromChannel(socket, quitMessage);

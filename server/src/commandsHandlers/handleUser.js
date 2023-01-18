@@ -2,6 +2,7 @@ import { addUser, getUser, updateUser, userHasUserName } from "../store.js";
 import getHostName from "../helpers/getHostName.js";
 import { serverName } from "../server.js";
 import { alreadyRegisteredErrorHandler, needMoreParamsErrorHandler } from "../helpers/errorHandlers.js";
+import sendWelcomeMessage from "../helpers/sendWelcomeMessage.js";
 
 export default async function handleUser(
   socket,
@@ -26,6 +27,7 @@ export default async function handleUser(
   if (user) {
     updateUser(socket, { username, hostname, serverName, realname });
     console.log(`Usuário "${username}@${hostname} :${realname}" adicionado`)
+    sendWelcomeMessage(socket);
     return;
   }
   
