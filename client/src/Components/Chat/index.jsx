@@ -6,7 +6,7 @@ import replyCodes from '../../enum/replyCodes';
 import MsnIcon from '../MsnIcon/MsnIcon';
 import msnIconImg from "../../msn_icon.png"
 
-const ChatScreen = ({messages, setMessages, onSubmit, arrivedMessages, setArrivedMessages, socket, currentUser }) => {
+const ChatScreen = ({messages, setMessages, onSubmit, socket, currentUser }) => {
 
   const [newMessage, setNewMessage] = useState("");
   const [currentChannel, setCurrentChannel] = useState(null);
@@ -23,12 +23,12 @@ const ChatScreen = ({messages, setMessages, onSubmit, arrivedMessages, setArrive
     }
   };
 
-  const formatMessage = (message, sender) => {
+  const formatMessage = (message, sender, isPrivate = false) => {
     let today = new Date();
     let time =
       today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
-    return { time: time, sender: sender || currentUser, message: message };
+    return { time: time, sender: sender || currentUser, message: message, isPrivate };
   };
 
   const sendMessage = (e) => {
@@ -42,14 +42,14 @@ const ChatScreen = ({messages, setMessages, onSubmit, arrivedMessages, setArrive
 
   useEffect(() => {
     socket.on('message', (data) => {
-        const formattedMessages = messagesFormater(data);
-        formattedMessages.forEach(({message, sender, command, args}) => {
+        const formattedMessages = messagesFormater(data, currentUser);
+        formattedMessages.forEach(({message, sender, command, args, isPrivate}) => {
             console.log(command);
             if (command === replyCodes.join) {
                 setCurrentChannel(args[4]);
             }
             
-            const formattedMessage = formatMessage(message, sender);
+            const formattedMessage = formatMessage(message, sender, isPrivate);
             setMessages(messages => [...messages, formattedMessage]);
         })
     })
@@ -101,7 +101,7 @@ const ChatScreen = ({messages, setMessages, onSubmit, arrivedMessages, setArrive
             return (
               <div key={key}>
                 <span className="sender-info">{`[${message.time}] ${message.sender} diz:`}</span>
-                <p>{message.message}</p>
+                <p style={ message.isPrivate ? { color: 'red' } : {}} >{message.message}</p>
               </div>
             );
           })}

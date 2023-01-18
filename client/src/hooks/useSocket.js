@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 
+const url = "172.23.64.1";
+
 export function useSocket(open) {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const socket = io('http://192.168.0.199:8000', {
+    const socket = io(`${url}:8000`, {
         transports: ['websocket'],
         origins: 'http://localhost:3000'
     });
@@ -21,7 +23,7 @@ export function useSocket(open) {
   }
 
   function connect(){
-    setSocket(io('http://192.168.0.199:8000', {
+    setSocket(io(`${url}:8000`, {
       transports: ['websocket'],
       origins: 'http://localhost:3000'
     }));

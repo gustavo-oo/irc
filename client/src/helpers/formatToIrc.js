@@ -3,7 +3,7 @@ const commandHandlers = {
     join: channelHandler,
     who: channelHandler,
     part: channelHandler,
-    dm: dmHandler,
+    privmsg: privmsgHandler,
 }
 
 
@@ -58,7 +58,7 @@ function channelHandler(message) {
     return args.join(" ");
 }
 
-function dmHandler(message) {
+function privmsgHandler(message) {
     const args = message.split(" ");
     args[0] = "privmsg";
     args[2] = ":" + args[2];

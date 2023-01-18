@@ -7,7 +7,7 @@ const server = createServer(cors());
 const io = new Server(server, { origin: "*" });
 
 io.on("connection", (socket) => {
-    const client = createConnection({ port: 6667, host: "192.168.0.199" }, () => {
+    const client = createConnection({ port: 6667, host: "172.23.64.1" }, () => {
         console.log("connected to server!");
     });
     

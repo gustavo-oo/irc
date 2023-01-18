@@ -10,8 +10,6 @@ function App() {
   const { socket, connect } = useSocket();
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
-  const [currentChannel, setCurrentChannel] = useState(null);
-  const [arrivedMessages, setArrivedMessages] = useState(null);
   const [messages, setMessages] = useState([]);
   const [nick, setNick] = useState("");
 
@@ -32,9 +30,6 @@ function App() {
       messages={messages}
       setMessages={setMessages}
       socket={socket}
-      arrivedMessages={arrivedMessages}
-      setArrivedMessages={setArrivedMessages}
-      channelName={currentChannel}
       onSubmit={handleSubmit}
       currentUser={nick}
     />
@@ -59,19 +54,13 @@ function App() {
       });
   
       socket.on('message', (data) => {
-        // setArrivedMessages(data);
         const messages = data.split("\r\n").filter(i => i);
         messages.forEach(message => {
           const args = message.split(" ");
-          // console.log(args);
           const replyCode = args[1];
           
           if (replyCode === replyCodes.logged) {
             setCurrentPage(1);
-          }
-          
-          if (replyCode === replyCodes.join) {
-            setCurrentChannel(args[4]);
           }
         })
       });
