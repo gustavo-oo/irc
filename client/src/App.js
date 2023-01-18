@@ -80,24 +80,6 @@ function App() {
       {pages[currentPage]}
     </div>
   );
-
-    // return (
-    //     <div>
-    //         <form onSubmit={handleSubmit}>
-    //             <input
-    //                 type='text'
-    //                 value={message}
-    //                 onChange={(e) => setMessage(e.target.value)}
-    //                 onKeyPress={(e) => {
-    //                     if (e.key === 'Enter') {
-    //                         handleSubmit(e);
-    //                     }
-    //                 }}
-    //             />
-    //             <button type='submit'>Send</button>
-    //         </form>
-    //     </div>
-    // );
 };
 
 export default App;
