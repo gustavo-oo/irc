@@ -1,0 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+* {
+  margin: 0;
+  font-family: "Montserrat", "Times New Roman";
+}
+
+body {
+  background: linear-gradient(
+    0deg,
+    rgba(185, 255, 253, 1) 0%,
+    rgba(247, 247, 247, 1) 25%,
+    rgba(247, 247, 247, 1) 75%,
+    rgba(185, 255, 253, 1) 99%
+  );
+}
