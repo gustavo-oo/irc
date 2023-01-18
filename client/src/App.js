@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import ChatScreen from './Components/Chat';
-import "./App.css";
 import "./Globals.css";
 import HomePage from "./pages/HomePage/HomePage";
 import replyCodes from './enum/replyCodes';
@@ -41,8 +40,8 @@ function App() {
   
   useEffect(() => {
     if (socket) {
-      socket.on('connect', () => {
-        console.log('Connected to the server');
+      socket.on("connect", () => {
+        console.log("Connected to the server");
       });
       
       socket.on('disconnect', () => {
