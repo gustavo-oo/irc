@@ -1,4 +1,4 @@
-import MsnIcon from "../../components/MsnIcon/MsnIcon";
+import MsnIcon from "../../Components/MsnIcon/MsnIcon";
 import "./HomePage.css";
 import { useState } from "react";
 export default function HomePage() {

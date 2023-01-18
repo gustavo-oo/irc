@@ -1,3 +1,3 @@
 export default function getClientId(socket) {
-    return socket.remoteAddress;
+    return `${socket.remoteAddress}:${socket.remotePort}`;
 }

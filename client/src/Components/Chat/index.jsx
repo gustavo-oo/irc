@@ -66,7 +66,7 @@ const ChatScreen = ({channelName}) => {
                             type="text" rows={4} onKeyDown={submitOnEnter} value={newMessage}
                             placeholder='Digite uma mensagem...' >
                         </textarea>
-                        <button type='Submit'><FiSend size={18}/></button>
+                        <button className="submit-button" type='Submit'><FiSend size={18}/></button>
                     </form>
                 </div>
             </div>

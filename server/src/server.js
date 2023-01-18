@@ -1,4 +1,5 @@
 import { createServer } from "net";
+import getClientId from "./helpers/getClientId.js";
 
 import messageHandler from "./commandsHandlers/messageHandler.js";
 import handleQuit from "./commandsHandlers/handleQuit.js";
@@ -6,7 +7,7 @@ import handleQuit from "./commandsHandlers/handleQuit.js";
 const serverName = "localhost";
 
 const server = createServer((socket) => {
-  console.log("client connected");
+  console.log("client connected: " + getClientId(socket));
 
   socket.on("end", () => {
     console.log("client disconnected");
