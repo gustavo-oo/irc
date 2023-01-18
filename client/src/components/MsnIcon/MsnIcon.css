@@ -1,11 +1,12 @@
 .border {
-  width: 12vw;
-  height: 26.5vh;
+  width: 13vw;
+  height: 29.5vh;
   border: 10px solid #75d855;
   border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: white;
 }
 
 .img {
