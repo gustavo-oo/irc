@@ -1,8 +1,7 @@
 import MsnIcon from "../../Components/MsnIcon/MsnIcon";
 import "./HomePage.css";
 import { useState } from "react";
-export default function HomePage({ onSubmit, isLoading, setIsLoading }) {
-  const [nick, setNick] = useState("");
+export default function HomePage({ onSubmit, isLoading, setIsLoading, nick, setNick }) {
   const [username, setUserName] = useState("");
   const [fullname, setFullName] = useState("");
 

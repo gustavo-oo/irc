@@ -13,13 +13,21 @@ function App() {
   const [currentChannel, setCurrentChannel] = useState(null);
   const [arrivedMessages, setArrivedMessages] = useState(null);
   const [messages, setMessages] = useState([]);
+  const [nick, setNick] = useState("");
+
   
   function handleSubmit(message) {
     socket.emit("message", message);
   }
   
   const pages = [
-    <HomePage isLoading={isLoading} setIsLoading={setIsLoading} onSubmit={handleSubmit} />,
+    <HomePage
+      isLoading={isLoading}
+      setIsLoading={setIsLoading}
+      onSubmit={handleSubmit}
+      nick={nick}
+      setNick={setNick}
+    />,
     <ChatScreen
       messages={messages}
       setMessages={setMessages}
@@ -28,6 +36,7 @@ function App() {
       setArrivedMessages={setArrivedMessages}
       channelName={currentChannel}
       onSubmit={handleSubmit}
+      currentUser={nick}
     />
   ];
   

@@ -1,16 +1,15 @@
 import './styles.css';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import formatToIrc from '../../helpers/formatToIrc';
-import { getSender, getMessages, getStringMessage, messagesFormater } from '../../helpers/arrivedMessageProcessor';
+import { messagesFormater } from '../../helpers/arrivedMessageProcessor';
 import replyCodes from '../../enum/replyCodes';
 import MsnIcon from '../MsnIcon/MsnIcon';
 import msnIconImg from "../../msn_icon.png"
 
-const ChatScreen = ({messages, setMessages, onSubmit, arrivedMessages, setArrivedMessages, socket }) => {
-    const [newMessage, setNewMessage] = useState("");
-    const [currentChannel, setCurrentChannel] = useState(null);
+const ChatScreen = ({messages, setMessages, onSubmit, arrivedMessages, setArrivedMessages, socket, currentUser }) => {
 
-  const currentUser = "David";
+  const [newMessage, setNewMessage] = useState("");
+  const [currentChannel, setCurrentChannel] = useState(null);
 
   const submitOnEnter = (event) => {
     if (event.which === 13 && !event.shiftKey) {
@@ -24,12 +23,12 @@ const ChatScreen = ({messages, setMessages, onSubmit, arrivedMessages, setArrive
     }
   };
 
-  const formatMessage = (message) => {
+  const formatMessage = (message, sender) => {
     let today = new Date();
     let time =
       today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
-    return { time: time, sender: currentUser, message: message };
+    return { time: time, sender: sender || currentUser, message: message };
   };
 
   const sendMessage = (e) => {
@@ -157,7 +156,7 @@ const ChatScreen = ({messages, setMessages, onSubmit, arrivedMessages, setArrive
                 <button className="submit-button" type="Submit">
                   Enviar
                 </button>
-                <button className="submit-button" type="Submit">
+                <button onClick={() => socket.disconnect()} className="submit-button">
                   Sair
                 </button>
               </div>

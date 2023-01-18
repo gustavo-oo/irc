@@ -22,8 +22,8 @@ export function useSocket(open) {
 
   function connect(){
     setSocket(io('http://192.168.0.199:8000', {
-        transports: ['websocket'],
-        origins: 'http://localhost:3000'
+      transports: ['websocket'],
+      origins: 'http://localhost:3000'
     }));
   }
 
