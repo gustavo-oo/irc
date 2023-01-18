@@ -172,7 +172,7 @@ p {
   margin-bottom: 2rem;
 }
 
-@media screen and (max-width: 1500px) {
+@media screen and (max-width: 1000px) {
   .image-container {
     display: none;
   }
