@@ -44,9 +44,14 @@ const ChatScreen = ({messages, setMessages, onSubmit, socket, currentUser }) => 
     socket.on('message', (data) => {
         const formattedMessages = messagesFormater(data, currentUser);
         formattedMessages.forEach(({message, sender, command, args, isPrivate}) => {
-            console.log(command);
             if (command === replyCodes.join) {
-                setCurrentChannel(args[4]);
+              setCurrentChannel(args[4]);
+            }
+            
+            console.log({message, sender, command, args, isPrivate});
+            
+            if (command === "QUIT" && sender === currentUser) {
+              setCurrentChannel(null);
             }
             
             const formattedMessage = formatMessage(message, sender, isPrivate);
