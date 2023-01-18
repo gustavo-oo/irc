@@ -93,8 +93,8 @@ h1 {
     rgb(230, 243, 247) 100%
   );
   border: 1px solid #d2dde0;
-
   display: flex;
+  width: 90.7%;
 }
 .send-message__button {
   background: transparent;
@@ -141,9 +141,10 @@ textarea {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   width: 8%;
-  height: 200px;
+  height: 100px;
+  margin-right: -3%;
+  margin-left: 3%;
   gap: 18%;
 }
 

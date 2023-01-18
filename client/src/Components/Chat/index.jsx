@@ -123,6 +123,7 @@ const ChatScreen = ({ channelName }) => {
             </div>
             <form id="form" onSubmit={(e) => sendMessage(e)}>
               <textarea
+                className="textArea"
                 id="textarea"
                 onChange={(e) => setNewMessage(e.target.value)}
                 type="text"
@@ -131,15 +132,15 @@ const ChatScreen = ({ channelName }) => {
                 value={newMessage}
                 placeholder="Digite uma mensagem..."
               ></textarea>
+              <div className="buttonConteiner">
+                <button className="submit-button" type="Submit">
+                  Enviar
+                </button>
+                <button className="submit-button" type="Submit">
+                  Sair
+                </button>
+              </div>
             </form>
-          </div>
-          <div className="buttonConteiner">
-            <button className="submit-button" type="Submit">
-              Enviar
-            </button>
-            <button className="submit-button" type="Submit">
-              Sair
-            </button>
           </div>
         </div>
       </div>
