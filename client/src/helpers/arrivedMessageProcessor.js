@@ -8,10 +8,12 @@ function getMessages(messages) {
 
 function getStringMessage(messages) {
     const message = messages.substring(1).split(":")[1].replace("\r\n", "");
+    return message;
 }
 
 function messagesFormater(messagesString) {
     const messages = getMessages(messagesString);
+    console.log(messages);
     
     const messageObject = messages.map((message) => (
         {

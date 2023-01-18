@@ -13,7 +13,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState(0);
   const [currentChannel, setCurrentChannel] = useState(null);
   const [arrivedMessages, setArrivedMessages] = useState(null);
-  const [messages, setMessages] = useState([{time: '11:02', sender: "Servidor", message: "Welcome to IRC Server"}]);
+  const [messages, setMessages] = useState([]);
   
   function handleSubmit(message) {
     socket.emit("message", message);

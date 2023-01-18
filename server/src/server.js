@@ -35,8 +35,6 @@ const server = createServer((socket) => {
     }
   });
 
-  socket.write("Welcome to the IRC server!\r\n");
-
   socket.on("data", (data) => {
     messageHandler(data.toString(), socket);
   });
