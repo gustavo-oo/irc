@@ -62,7 +62,7 @@ textarea {
     border: 3px solid #c0c0c0;
 }
 
-button {
+.submit-button {
     background-color: #75D855;
     width: 3rem;
     height: 3rem;
