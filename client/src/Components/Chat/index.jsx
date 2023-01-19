@@ -161,7 +161,7 @@ const ChatScreen = ({messages, setMessages, onSubmit, socket, currentUser }) => 
                 <button className="submit-button" type="Submit">
                   Enviar
                 </button>
-                <button onClick={() => socket.disconnect()} className="submit-button">
+                <button onClick={() => socket.emit("message", "QUIT")} className="submit-button">
                   Sair
                 </button>
               </div>
